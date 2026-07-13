@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database Container
+  postgres-database:
+    image: postgres:15-alpine
+    container_name: shopwave-postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME:-shopwave}
+      POSTGRES_USER: ${DATABASE_USERNAME:-postgres}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-postgres_secure_pass}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - shopwave-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d shopwave"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Spring Boot E-Commerce Application Container
+  shopwave-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: shopwave-app
+    restart: always
+    ports:
+      - "8888:8080" # Exposed on 8888 to prevent port clashes during local tests if needed, or 8080:8080
+    environment:
+      DATABASE_HOST: postgres-database
+      DATABASE_PORT: 5432
+      DATABASE_NAME: ${DATABASE_NAME:-shopwave}
+      DATABASE_USERNAME: ${DATABASE_USERNAME:-postgres}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD:-postgres_secure_pass}
+    depends_on:
+      postgres-database:
+        condition: service_healthy
+    networks:
+      - shopwave-network
+
+networks:
+  shopwave-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local

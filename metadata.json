@@ -1,0 +1,6 @@
+{
+  "name": "ShopWave",
+  "description": "Java Spring Boot E-Commerce Web Application (Phase 1) featuring a responsive frontend, PostgreSQL database design, and Docker containerization.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

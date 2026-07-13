@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}">ShopWave - Catalog</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .heading-font { font-family: 'Outfit', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900 flex flex-col min-h-screen">
+
+    <!-- Header / Navigation Bar -->
+    <header class="sticky top-0 bg-white/80 backdrop-blur-md border-b border-gray-200 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="/" class="flex items-center gap-2">
+                        <span class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-bold text-lg heading-font">S</span>
+                        <span class="text-xl font-bold tracking-tight text-gray-900 heading-font">Shop<span class="text-indigo-600">Wave</span></span>
+                    </a>
+                </div>
+                
+                <!-- Nav Links -->
+                <nav class="hidden md:flex space-x-8">
+                    <a href="/" class="text-gray-500 hover:text-gray-900 font-medium px-3 py-2 text-sm transition">Home</a>
+                    <a href="/products" class="text-indigo-600 font-medium px-3 py-2 text-sm border-b-2 border-indigo-600">Browse Shop</a>
+                    <a href="/products?category=Electronics" class="text-gray-500 hover:text-gray-900 font-medium px-3 py-2 text-sm transition">Electronics</a>
+                    <a href="/products?category=Accessories" class="text-gray-500 hover:text-gray-900 font-medium px-3 py-2 text-sm transition">Accessories</a>
+                </nav>
+
+                <!-- Search/Actions -->
+                <div class="flex items-center gap-4">
+                    <a href="/products" class="text-gray-500 hover:text-gray-900 p-2 text-lg transition">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </a>
+                    <a href="#" class="relative text-gray-500 hover:text-gray-900 p-2 text-lg transition">
+                        <i class="fa-solid fa-bag-shopping"></i>
+                        <span class="absolute top-0 right-0 w-4 h-4 bg-indigo-600 rounded-full text-white text-[10px] flex items-center justify-center font-bold">3</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Title -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-grow">
+        <div class="border-b border-gray-200 pb-5 mb-8">
+            <h1 class="text-3xl font-extrabold text-gray-900 heading-font" th:text="${'Category: ' + selectedCategory}">Category: All</h1>
+            <p class="mt-2 text-sm text-gray-500">Explore premium quality goods curated for peak utility and elegance.</p>
+        </div>
+
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- Sidebar Filters -->
+            <aside class="w-full lg:w-64 shrink-0">
+                <div class="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm sticky top-24">
+                    <h3 class="font-bold text-gray-900 text-sm uppercase tracking-wider mb-4 heading-font">Filter Categories</h3>
+                    <div class="space-y-2">
+                        <a href="/products" th:class="${selectedCategory == 'All' ? 'flex items-center justify-between px-3 py-2 rounded-xl bg-indigo-50 text-indigo-600 font-semibold text-sm' : 'flex items-center justify-between px-3 py-2 rounded-xl text-gray-600 hover:bg-gray-50 hover:text-gray-900 text-sm transition'}">
+                            <span>All Products</span>
+                            <span class="bg-indigo-100 text-indigo-700 text-xs px-2 py-0.5 rounded-full font-bold">6</span>
+                        </a>
+                        <a href="/products?category=Electronics" th:class="${selectedCategory == 'Electronics' ? 'flex items-center justify-between px-3 py-2 rounded-xl bg-indigo-50 text-indigo-600 font-semibold text-sm' : 'flex items-center justify-between px-3 py-2 rounded-xl text-gray-600 hover:bg-gray-50 hover:text-gray-900 text-sm transition'}">
+                            <span>Electronics</span>
+                            <span class="bg-gray-100 text-gray-700 text-xs px-2 py-0.5 rounded-full">2</span>
+                        </a>
+                        <a href="/products?category=Accessories" th:class="${selectedCategory == 'Accessories' ? 'flex items-center justify-between px-3 py-2 rounded-xl bg-indigo-50 text-indigo-600 font-semibold text-sm' : 'flex items-center justify-between px-3 py-2 rounded-xl text-gray-600 hover:bg-gray-50 hover:text-gray-900 text-sm transition'}">
+                            <span>Accessories</span>
+                            <span class="bg-gray-100 text-gray-700 text-xs px-2 py-0.5 rounded-full">2</span>
+                        </a>
+                        <a href="/products?category=Audio" th:class="${selectedCategory == 'Audio' ? 'flex items-center justify-between px-3 py-2 rounded-xl bg-indigo-50 text-indigo-600 font-semibold text-sm' : 'flex items-center justify-between px-3 py-2 rounded-xl text-gray-600 hover:bg-gray-50 hover:text-gray-900 text-sm transition'}">
+                            <span>Audio</span>
+                            <span class="bg-gray-100 text-gray-700 text-xs px-2 py-0.5 rounded-full">1</span>
+                        </a>
+                        <a href="/products?category=Home & Office" th:class="${selectedCategory == 'Home & Office' ? 'flex items-center justify-between px-3 py-2 rounded-xl bg-indigo-50 text-indigo-600 font-semibold text-sm' : 'flex items-center justify-between px-3 py-2 rounded-xl text-gray-600 hover:bg-gray-50 hover:text-gray-900 text-sm transition'}">
+                            <span>Home & Office</span>
+                            <span class="bg-gray-100 text-gray-700 text-xs px-2 py-0.5 rounded-full">1</span>
+                        </a>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Products Grid Container -->
+            <div class="flex-grow">
+                <!-- If empty -->
+                <div th:if="${products.empty}" class="bg-white rounded-2xl border border-gray-200 p-12 text-center shadow-sm">
+                    <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center text-gray-400 text-2xl mx-auto mb-4">
+                        <i class="fa-solid fa-box-open"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-900 text-lg">No Products Found</h3>
+                    <p class="text-gray-500 text-sm mt-1">We couldn't find any products matching this filter.</p>
+                    <a href="/products" class="mt-4 inline-flex items-center justify-center px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl font-medium text-sm transition">
+                        Reset Filters
+                    </a>
+                </div>
+
+                <!-- Product Cards -->
+                <div th:unless="${products.empty}" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div th:each="product : ${products}" class="group bg-white rounded-2xl overflow-hidden border border-gray-200 hover:border-indigo-150 hover:shadow-lg transition duration-300 flex flex-col h-full">
+                        <!-- Image -->
+                        <div class="relative bg-gray-100 aspect-square overflow-hidden">
+                            <img th:src="${product.imageUrl}" th:alt="${product.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                            <span class="absolute top-3 left-3 bg-indigo-600 text-white font-bold text-[9px] tracking-wider uppercase px-2 py-0.5 rounded-full" th:text="${product.category}">Category</span>
+                        </div>
+                        
+                        <!-- Content -->
+                        <div class="p-5 flex flex-col flex-grow">
+                            <h3 class="font-bold text-gray-900 text-base line-clamp-1 group-hover:text-indigo-600 transition" th:text="${product.name}">Product Name</h3>
+                            <p class="text-gray-500 text-xs mt-1.5 line-clamp-2 leading-relaxed flex-grow" th:text="${product.description}">Product Description</p>
+                            
+                            <!-- Price and Action -->
+                            <div class="flex items-center justify-between mt-5 pt-4 border-t border-gray-100">
+                                <div>
+                                    <span class="text-[10px] text-gray-400 block uppercase font-medium">Price</span>
+                                    <span class="text-lg font-extrabold text-indigo-600" th:text="${'$' + #numbers.formatDecimal(product.price, 1, 2)}">$1,200.00</span>
+                                </div>
+                                <a th:href="@{/products/{id}(id=${product.id})}" class="inline-flex items-center justify-center px-4 py-2 text-xs font-semibold rounded-xl bg-indigo-50 hover:bg-indigo-600 text-indigo-600 hover:text-white transition gap-1">
+                                    Details <i class="fa-solid fa-chevron-right text-[8px]"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 mt-auto border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <!-- Brand -->
+                <div class="md:col-span-2">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-bold text-lg heading-font">S</span>
+                        <span class="text-xl font-bold text-white heading-font">ShopWave</span>
+                    </div>
+                    <p class="text-sm max-w-sm text-slate-400">
+                        Building state-of-the-art shopping portals connected to performant server backends and reliable relational databases.
+                    </p>
+                </div>
+                <!-- Links -->
+                <div>
+                    <h4 class="text-white font-bold text-sm mb-4 uppercase tracking-wider heading-font">Platform</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="/" class="hover:text-white transition">Home</a></li>
+                        <li><a href="/products" class="hover:text-white transition">All Products</a></li>
+                        <li><a href="/api/products" class="hover:text-white transition">JSON REST API</a></li>
+                    </ul>
+                </div>
+                <!-- Technical specs -->
+                <div>
+                    <h4 class="text-white font-bold text-sm mb-4 uppercase tracking-wider heading-font">Architecture</h4>
+                    <ul class="space-y-1 text-xs">
+                        <li>Server: <span class="text-indigo-400 font-mono">Java 17 / Spring Boot</span></li>
+                        <li>Database: <span class="text-indigo-400 font-mono">PostgreSQL</span></li>
+                        <li>Templates: <span class="text-indigo-400 font-mono">Thymeleaf Engine</span></li>
+                        <li>Containers: <span class="text-indigo-400 font-mono">Docker Compose</span></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-slate-800 pt-8 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500">
+                <p>&copy; 2026 ShopWave Inc. Developed with Spring Boot 3 & PostgreSQL. All rights reserved.</p>
+                <div class="flex gap-4 mt-4 sm:mt-0">
+                    <a href="#" class="hover:text-slate-300"><i class="fa-brands fa-github text-base"></i></a>
+                    <a href="#" class="hover:text-slate-300"><i class="fa-brands fa-docker text-base"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
